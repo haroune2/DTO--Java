@@ -15,12 +15,18 @@ public class UserMapper {
     public UserMapper(PokemonMapper pokemonMapper) {
         this.pokemonMapper = pokemonMapper;
     }
-        public UserDTO toUserDTO(User user) {
+
+    public UserDTO toUserDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(user.getName());
-        userDTO.setPokemons(user.getPokemons().stream()
-                .map(pokemonMapper::toPokemonDTO)
-                .collect(Collectors.toList()));
+
+        userDTO.setPokemons(
+                user.getPokemons()
+                        .stream()
+                        .map(pokemonMapper::toPokemonDTO) // fonction de transformation à chaque élément du flux
+                        //.map(pokemon -> pokemonMapper.toPokemonDTO(pokemon))
+                        .collect(Collectors.toList()));
+
         return userDTO;
     }
 }
