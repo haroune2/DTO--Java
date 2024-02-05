@@ -1,0 +1,21 @@
+GET https://urban-capybara-x6q656wj4jrhvx7g-8080.app.github.dev/dresseur
+
+
+POST   https://urban-capybara-x6q656wj4jrhvx7g-8080.app.github.dev/dresseur
+Content-Type: application/json
+
+{
+  "name": "string",
+  "age": 0,
+  "level": 0,
+  "pokémons": [
+    {
+      "id": 0,
+      "name": "string",
+      "attribute": "FEU",
+      "power": 0,
+      "dresseur": "string"
+    }
+  ],
+  "id": 0
+}

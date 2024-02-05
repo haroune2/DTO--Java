@@ -1,10 +1,13 @@
 package com.example.demo.domain.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,30 +17,38 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Data
-public class Dresseur {
+@ToString
+
+@Entity
+public class User  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String name;
+    @Column(name = "age")
     private int age;
 
     @Min(0)
     @Max(100)
     private int level;
 
-    @OneToMany(mappedBy = "dresseur", cascade = CascadeType.ALL)
-    Set<Pokémon> pokémons = new HashSet<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    Set<Pokemon> pokemons = new HashSet<>();
+ 
+
+
+    
 }
