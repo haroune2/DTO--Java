@@ -42,10 +42,7 @@ public class Pokemon {
     @Max(10)
     private int power; 
  
-    @ToString.Exclude
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+
     private User user; 
 
  

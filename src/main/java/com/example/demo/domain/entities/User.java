@@ -37,7 +37,9 @@ public class User  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
+    
     @Column(name = "age")
     private int age;
 
@@ -45,7 +47,7 @@ public class User  {
     @Max(100)
     private int level;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
     Set<Pokemon> pokemons = new HashSet<>();
  
 
