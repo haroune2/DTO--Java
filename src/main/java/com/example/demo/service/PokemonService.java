@@ -27,7 +27,7 @@ public class PokemonService {
         if (pokemonRepository.existsById(pokemon.getId())) {
             throw new PokemonException(HttpStatus.CONFLICT, "pokemon " + pokemon + " exists.");
         }
-        return pokemonMapper.toPokemonDTO(pokemon)
+        return pokemonMapper.toPokemonDTO(pokemon);
     }
 
     public PokemonDTO get(String name) {
