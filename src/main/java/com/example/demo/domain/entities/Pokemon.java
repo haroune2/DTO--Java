@@ -42,8 +42,14 @@ public class Pokemon {
     @Max(10)
     private int power; 
  
-
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToOne
     private User user; 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, attribute, power);
+    }
+    
  
 }

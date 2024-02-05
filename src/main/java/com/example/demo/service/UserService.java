@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,10 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.dto.UserDTO;
+import com.example.demo.domain.entities.Pokemon;
 import com.example.demo.domain.entities.User;
 import com.example.demo.domain.execption.UserExeption;
+import com.example.demo.repository.PokemonRepository;
 import com.example.demo.repository.UserRepository;
 import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -19,8 +23,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PokemonRepository pokemonRepository;
+
+    @Autowired
     private UserMapper userMapper;
-    
 
     public List<User> list() {
         return userRepository.findAll();
@@ -30,14 +36,28 @@ public class UserService {
         if (Objects.isNull(user)) {
             throw new UserExeption(HttpStatus.CONFLICT, "user cant be null");
         } else {
-            return userRepository.save(user);
+            User savedUser = userRepository.save(user);
+
+            // Associer le nouvel utilisateur au Pokémon
+            if (user.getPokemons() != null) {
+                for (Pokemon pokemon : user.getPokemons()) {
+                    pokemon.setUser(savedUser);
+                    pokemonRepository.save(pokemon);
+                }
+            }
+
+            // Mise à jour de l'utilisateur avec les relations Pokémon fraîchement
+            // sauvegardées
+            savedUser.setPokemons(new HashSet<>(user.getPokemons()));
+
+            return savedUser;
         }
     }
 
     public UserDTO get(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
-            return userMapper.toUserDTO(userOptional.get()); 
+            return userMapper.toUserDTO(userOptional.get());
         } else {
             throw new UserExeption(HttpStatus.NOT_FOUND, "user " + id + " is not found");
         }

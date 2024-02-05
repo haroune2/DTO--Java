@@ -50,7 +50,11 @@ public class User  {
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
     Set<Pokemon> pokemons = new HashSet<>();
  
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, level);
+    }
+    
 
     
 }
